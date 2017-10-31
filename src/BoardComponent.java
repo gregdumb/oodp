@@ -6,6 +6,7 @@ import java.io.File;
 
 /**
  * Created by Greg on 10/31/2017.
+ * DEPRECATED DO NOT USE WILL DELETE SOON
  */
 public class BoardComponent extends JComponent
 {

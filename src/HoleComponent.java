@@ -28,8 +28,12 @@ public class HoleComponent extends JComponent
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 
-		g2d.drawOval(0, 0, size, size);
+		g2d.drawOval(0, 0, size-1, size-1); // add a buffer of 1 pixel so the edges don't get cut off
 		g2d.drawString(Integer.toString(id), size/2, size/2);
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	@Override
