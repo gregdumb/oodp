@@ -5,18 +5,23 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
- * Created by Greg on 10/31/2017.
+ * GameFrame
+ * Swing frame that displays the Mancala game
  */
 public class GameFrame
 {
 	private final int WIDTH = 800;
 	private final int HEIGHT = 600;
+	private final String TITLE = "Mancala game";
 
 	public GameFrame() {
-
+		// Create frame
 		JFrame frame = new JFrame();
 		frame.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		frame.setTitle("Mancala Game");
+		frame.setTitle(TITLE);
+		frame.setResizable(false);
+
+		// Add components to frame
 
 		// THIS IS TO TEST HAVING AN IMAGE HERE
 		// THIS NEEDS TO GO IN ITS OWN COMPONENT CLASS
@@ -41,8 +46,7 @@ public class GameFrame
 			System.out.println(e.toString());
 		}
 
-		// Set up view
-
+		// Show frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
