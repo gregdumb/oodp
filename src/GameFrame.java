@@ -1,8 +1,5 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 
 /**
  * GameFrame
@@ -21,30 +18,11 @@ public class GameFrame
 		frame.setTitle(TITLE);
 		frame.setResizable(false);
 
+		// Create components
+		BoardComponent boardPanel = new BoardComponent();
+
 		// Add components to frame
-
-		// THIS IS TO TEST HAVING AN IMAGE HERE
-		// THIS NEEDS TO GO IN ITS OWN COMPONENT CLASS
-		try
-		{
-			final BufferedImage image = ImageIO.read(new File("./res/board.jpg"));
-
-			// VERY HACKY
-			JPanel boardPanel = new JPanel()
-			{
-				@Override
-				protected void paintComponent(Graphics g)
-				{
-					super.paintComponent(g);
-					g.drawImage(image, 0, 0, null);
-				}
-			};
-
-			frame.add(boardPanel);
-		}
-		catch (Exception e) {
-			System.out.println(e.toString());
-		}
+		frame.add(boardPanel);
 
 		// Show frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
