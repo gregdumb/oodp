@@ -19,7 +19,7 @@ public class GameFrame
 		frame.setResizable(false);
 
 		// Create components
-		BoardComponent boardPanel = new BoardComponent();
+		BoardPanel boardPanel = new BoardPanel();
 
 		// Add components to frame
 		frame.add(boardPanel);
