@@ -10,8 +10,13 @@ public class GameFrame
 	private final int WIDTH = 800;
 	private final int HEIGHT = 600;
 	private final String TITLE = "Mancala game";
+	
+	private GameModel model;
 
-	public GameFrame() {
+	public GameFrame(GameModel model) {
+		
+		this.model = model;
+		
 		// Create frame
 		JFrame frame = new JFrame();
 		frame.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -22,7 +27,7 @@ public class GameFrame
 		JPanel panel = new JPanel();
 		
 		// Create components
-		BoardPanel boardPanel = new BoardPanel(WIDTH, 300);
+		BoardPanel boardPanel = new BoardPanel(model, WIDTH, 300);
 
 		// Add components & panel to frame
 		panel.add(boardPanel);

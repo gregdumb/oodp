@@ -6,7 +6,8 @@ public class Main
 	public static void main(String[] args)
 	{
 		System.out.println("Starting game");
-
-		GameFrame view = new GameFrame();
+		
+		GameModel model = new GameModel();
+		GameFrame view = new GameFrame(model);
 	}
 }
