@@ -9,11 +9,13 @@ import java.awt.event.MouseEvent;
  */
 public class BoardPanel extends JPanel
 {
+	/** Diameter of the holes */
 	private final int HOLE_SIZE = 50;
-	private final int HOLE_SPACING = 100;
 	
-	private final int EDGE_PADDING = 50;
+	/** Distance from center of holes to edge of panel */
+	private final int EDGE_PADDING = 100;
 	
+	/** Dimensions of panel */
 	private int width;
 	private int height;
 
@@ -26,24 +28,30 @@ public class BoardPanel extends JPanel
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(width, height));
 		
-		// Calculate position & dimensions
+		// Calculate positioning
+		// Size of board, not including padding
 		int boardWidth = width - (2 * EDGE_PADDING);
 		int boardHeight = height - (2 * EDGE_PADDING);
-		
-		int spacingX = boardWidth / (6 + 2); // 6 holes and 2 stores
+		// Distance between centers of holes
+		int spacingX = boardWidth / (7); // 6 holes and 2 stores
 		int spacingY = boardHeight;
-		
+		// Position where the first hole goes
 		int holeStartX = EDGE_PADDING + spacingX;
 		int holeStartY = EDGE_PADDING;
-		
-		int rightStoreX = boardWidth - EDGE_PADDING;
+		// Position for center of right store
+		int rightStoreX = width - EDGE_PADDING;
 		int rightStoreY = height / 2;
-		
+		// Position for center of left store
 		int leftStoreX = EDGE_PADDING;
 		int leftStoreY = height / 2;
-		
+		// Dimensions of stores
 		int storeWidth = HOLE_SIZE;
 		int storeHeight = HOLE_SIZE + spacingY;
+		
+		// Create background
+		//BackgroundComponent bg = new BackgroundComponent();
+		//bg.setSize(width, height);
+		//this.add(bg);
 		
 		// Create rows of holes
 		for(int i = 0; i < 12; i++) {
@@ -56,6 +64,7 @@ public class BoardPanel extends JPanel
 
 			HoleComponent hole = createCenteredHole(i, x, y, HOLE_SIZE);
 			
+			// This is temporary, but is demo of how we will handle mouse clicks
 			hole.addMouseListener(new MouseAdapter()
 			{
 				@Override
