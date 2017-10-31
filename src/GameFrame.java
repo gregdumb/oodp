@@ -17,12 +17,16 @@ public class GameFrame
 		frame.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		frame.setTitle(TITLE);
 		frame.setResizable(false);
-
+		
+		// Create panel
+		JPanel panel = new JPanel();
+		
 		// Create components
 		BoardPanel boardPanel = new BoardPanel(WIDTH, 300);
 
-		// Add components to frame
-		frame.add(boardPanel);
+		// Add components & panel to frame
+		panel.add(boardPanel);
+		frame.add(panel);
 
 		// Show frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
