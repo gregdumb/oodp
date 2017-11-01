@@ -18,9 +18,12 @@ public class BoardPanel extends JPanel
 	/** Dimensions of panel */
 	private int width;
 	private int height;
+	
+	GameModel model;
 
 	public BoardPanel(GameModel model, int width, int height) {
 		
+		this.model = model;
 		this.width = width;
 		this.height = height;
 		
@@ -64,7 +67,6 @@ public class BoardPanel extends JPanel
 			int y = holeStartY + (row * spacingY);
 
 			HoleComponent hole = createCenteredHole(i, x, y, HOLE_SIZE);
-			hole.count = model.holes.get(i);
 			
 			// This is temporary, but is demo of how we will handle mouse clicks
 			hole.addMouseListener(new MouseAdapter()
@@ -73,9 +75,12 @@ public class BoardPanel extends JPanel
 				public void mouseClicked(MouseEvent e)
 				{
 					//super.mouseClicked(e);
-					System.out.println("Clicked on " + hole.count);
+					model.incrementHole(hole.getId());
+					System.out.println("Clicked on " + hole.getId());
 				}
 			});
+			
+			model.attachListener(hole);
 			
 			this.add(hole);
 		}
@@ -98,7 +103,7 @@ public class BoardPanel extends JPanel
 	 */
 	private HoleComponent createCenteredHole(int id, int x, int y, int size) {
 
-		HoleComponent newHole = new HoleComponent(id, size);
+		HoleComponent newHole = new HoleComponent(id, size, model);
 
 		int actualX = x - (size / 2);
 		int actualY = y - (size / 2);

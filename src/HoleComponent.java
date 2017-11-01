@@ -1,11 +1,13 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
  * Created by Greg on 10/31/2017.
  */
-public class HoleComponent extends JComponent
+public class HoleComponent extends JComponent implements ChangeListener
 {
 	/** Holes are numbered like so:
 	 *    0  1  2  3  4  5
@@ -13,14 +15,17 @@ public class HoleComponent extends JComponent
 	private int id;
 	
 	public int count = 0;
+	
+	public GameModel model;
 
 	// Width/height of hole
 	private int size;
 
-	public HoleComponent(int id, int size) {
+	public HoleComponent(int id, int size, GameModel model) {
 
 		this.id = id;
 		this.size = size;
+		this.model = model;
 
 		this.setSize(size, size);
 	}
@@ -31,7 +36,8 @@ public class HoleComponent extends JComponent
 		Graphics2D g2d = (Graphics2D) g;
 
 		g2d.drawOval(0, 0, size-1, size-1); // add a buffer of 1 pixel so the edges don't get cut off
-		g2d.drawString(Integer.toString(id), size/2, size/2);
+		g2d.drawString(Integer.toString(model.getCountOfHole(id)), size/2, size/2);
+		System.out.println(model.getCountOfHole(id));
 	}
 	
 	public int getId() {
@@ -41,5 +47,13 @@ public class HoleComponent extends JComponent
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(size, size);
+	}
+	
+	/**
+	 * Called when the model changes
+	 * @param e
+	 */
+	public void stateChanged(ChangeEvent e) {
+		this.repaint();
 	}
 }
