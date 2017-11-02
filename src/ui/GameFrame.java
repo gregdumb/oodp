@@ -4,13 +4,15 @@ import logic.GameModel;
 import ui.BoardPanel;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 /**
  * ui.GameFrame
  * Swing frame that displays the Mancala game
  */
-public class GameFrame
+public class GameFrame implements ChangeListener
 {
 	private final int WIDTH = 800;
 	private final int HEIGHT = 600;
@@ -18,12 +20,15 @@ public class GameFrame
 	
 	private GameModel model;
 
+	JFrame frame;
+
 	public GameFrame(GameModel model) {
 		
 		this.model = model;
+		model.attachListener(this);
 		
 		// Create frame
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		frame.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		frame.setTitle(TITLE);
 		frame.setResizable(false);
@@ -42,5 +47,9 @@ public class GameFrame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
+	}
+
+	public void stateChanged(ChangeEvent e) {
+		//frame.repaint();
 	}
 }

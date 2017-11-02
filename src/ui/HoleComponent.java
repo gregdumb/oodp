@@ -46,6 +46,7 @@ public class HoleComponent extends JComponent
 		});
 	}
 
+	/** Draws the hole's circle */
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
