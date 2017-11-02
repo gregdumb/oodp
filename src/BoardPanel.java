@@ -54,11 +54,6 @@ public class BoardPanel extends JPanel implements ChangeListener
 		int storeWidth = HOLE_SIZE;
 		int storeHeight = HOLE_SIZE + spacingY;
 		
-		// Create background
-		//BackgroundComponent bg = new BackgroundComponent();
-		//bg.setSize(width, height);
-		//this.add(bg);
-		
 		// Create rows of holes
 		for(int i = 0; i < 12; i++) {
 
@@ -76,13 +71,9 @@ public class BoardPanel extends JPanel implements ChangeListener
 				@Override
 				public void mouseClicked(MouseEvent e)
 				{
-					//super.mouseClicked(e);
-					model.incrementHole(hole.getId());
-					System.out.println("Clicked on " + hole.getId());
+					model.holeClicked(hole.getId());
 				}
 			});
-			
-			//model.attachListener(hole);
 			
 			this.add(hole);
 		}

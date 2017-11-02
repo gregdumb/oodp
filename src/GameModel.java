@@ -19,6 +19,14 @@ public class GameModel
 		holes = new ArrayList<>(Collections.nCopies(12, 4));
 		holes.set(3, 1);
 	}
+
+	/**
+	 * Called by hole when it's clicked on
+	 * @param holeId the hole that was clicked
+	 */
+	public void holeClicked(int holeId) {
+		incrementHole(holeId);
+	}
 	
 	/**
 	 * Get how many stones are in a hole
@@ -33,7 +41,7 @@ public class GameModel
 	 * FOR DEBUGGING, just adds to a hole
 	 * @param index
 	 */
-	public void incrementHole(int index) {
+	private void incrementHole(int index) {
 		int newVal = holes.get(index) + 1;
 		holes.set(index, newVal);
 		update();
