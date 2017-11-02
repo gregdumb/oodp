@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -7,7 +9,7 @@ import java.awt.event.MouseEvent;
  * Board Panel
  * JPanel that contains the circles and stuff for the mancala board
  */
-public class BoardPanel extends JPanel
+public class BoardPanel extends JPanel implements ChangeListener
 {
 	/** Diameter of the holes */
 	private final int HOLE_SIZE = 50;
@@ -80,7 +82,7 @@ public class BoardPanel extends JPanel
 				}
 			});
 			
-			model.attachListener(hole);
+			//model.attachListener(hole);
 			
 			this.add(hole);
 		}
@@ -91,6 +93,9 @@ public class BoardPanel extends JPanel
 		
 		StoreComponent storeL = createCenteredStore(1, leftStoreX, leftStoreY, storeWidth, storeHeight);
 		this.add(storeL);
+
+		// Attach as listener so we will repaint when the modal changes
+		model.attachListener(this);
 	}
 
 	/**
@@ -136,5 +141,9 @@ public class BoardPanel extends JPanel
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(width, height);
+	}
+
+	public void stateChanged(ChangeEvent e) {
+		this.repaint();
 	}
 }

@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by Greg on 10/31/2017.
  */
-public class HoleComponent extends JComponent implements ChangeListener
+public class HoleComponent extends JComponent
 {
 	/** Holes are numbered like so:
 	 *    0  1  2  3  4  5
@@ -47,13 +47,5 @@ public class HoleComponent extends JComponent implements ChangeListener
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(size, size);
-	}
-	
-	/**
-	 * Called when the model changes
-	 * @param e
-	 */
-	public void stateChanged(ChangeEvent e) {
-		this.repaint();
 	}
 }

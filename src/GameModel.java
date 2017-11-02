@@ -8,10 +8,10 @@ import java.util.Collections;
  */
 public class GameModel
 {
-	//private ArrayList holes;
-	
+	/** Listeners that will update when the modal changes */
 	private ArrayList<ChangeListener> listeners;
-	
+
+	/** Stores how many stones are in each hole */
 	private ArrayList<Integer> holes;
 	
 	public GameModel() {
