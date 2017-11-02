@@ -19,7 +19,7 @@ public class BoardPanel extends JPanel implements ChangeListener
 	/** Distance from center of holes to edge of panel */
 	private final int EDGE_PADDING = 100;
 
-	private final int LABEL_SIZE_X = 50;
+	private final int LABEL_SIZE_X = 200;
 	private final int LABEL_SIZE_Y = 20;
 	
 	/** Dimensions of panel */
@@ -51,7 +51,7 @@ public class BoardPanel extends JPanel implements ChangeListener
 
 		// Position where the first hole goes
 		int holeStartX = EDGE_PADDING + spacingX;
-		int holeStartY = EDGE_PADDING;
+		int holeStartY = EDGE_PADDING + spacingY;
 
 		// Position for center of right store
 		int rightStoreX = width - EDGE_PADDING;
@@ -67,20 +67,21 @@ public class BoardPanel extends JPanel implements ChangeListener
 
 		// Position of player 1/2 labels
 		int p1LabelX = (width / 2) - (LABEL_SIZE_X / 2);
-		int p1LabelY = (EDGE_PADDING / 2) - (LABEL_SIZE_Y / 2);
+		int p1LabelY = height - (EDGE_PADDING / 2) - (LABEL_SIZE_Y / 2);
 		int p2LabelX = (width / 2) - (LABEL_SIZE_X / 2);
-		int p2LabelY = height - (EDGE_PADDING / 2) - (LABEL_SIZE_Y / 2);
+		int p2LabelY = (EDGE_PADDING / 2) - (LABEL_SIZE_Y / 2);
 		
 		// Create rows of holes
 		for(int i = 0; i < 12; i++) {
 
-			int row = (i / 6); // Will be 0 on first row, 1 on second row
+			int row = (i / 6); // Will be 0 on bottom row, 1 on top row
 			int column = (i % 6); // Will be 0-5 for each column
+			int id = Math.abs(11 * row - column); // Will be 0-5 and then 11-6 for top row
 
 			int x = holeStartX + (column * spacingX);
-			int y = holeStartY + (row * spacingY);
+			int y = holeStartY - (row * spacingY);
 
-			HoleComponent hole = createCenteredHole(i, x, y, HOLE_SIZE);
+			HoleComponent hole = createCenteredHole(id, x, y, HOLE_SIZE);
 			this.add(hole);
 		}
 		
@@ -91,12 +92,12 @@ public class BoardPanel extends JPanel implements ChangeListener
 		this.add(storeL);
 
 		// Create "Player 1/2" labels
-		JLabel p1Label = new JLabel("Player 1", SwingConstants.CENTER);
+		JLabel p1Label = new JLabel("Player 1 >>", SwingConstants.CENTER);
 		p1Label.setLocation(p1LabelX, p1LabelY);
 		p1Label.setSize(LABEL_SIZE_X, LABEL_SIZE_Y);
 		this.add(p1Label);
 
-		JLabel p2Label = new JLabel("Player 2", SwingConstants.CENTER);
+		JLabel p2Label = new JLabel("<< Player 2", SwingConstants.CENTER);
 		p2Label.setLocation(p2LabelX, p2LabelY);
 		p2Label.setSize(LABEL_SIZE_X, LABEL_SIZE_Y);
 		this.add(p2Label);

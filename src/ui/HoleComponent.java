@@ -52,6 +52,7 @@ public class HoleComponent extends JComponent
 
 		g2d.drawOval(0, 0, size-1, size-1); // add a buffer of 1 pixel so the edges don't get cut off
 		g2d.drawString(Integer.toString(model.getCountOfHole(id)), size/2, size/2);
+		g2d.drawString(Integer.toString(this.getId()), 0, 10);
 	}
 	
 	public int getId() {
