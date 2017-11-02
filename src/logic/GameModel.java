@@ -55,6 +55,10 @@ public class GameModel
 		update();
 	}
 
+	public int getCurrentTurn() {
+		return turn;
+	}
+
 	/**
 	 * Moves to the next turn
 	 */
