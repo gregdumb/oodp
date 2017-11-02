@@ -3,6 +3,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by Greg on 10/31/2017.
@@ -28,6 +30,16 @@ public class HoleComponent extends JComponent
 		this.model = model;
 
 		this.setSize(size, size);
+
+		// Tell the model when we are clicked, it will handle it from there
+		this.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				model.holeClicked(getId());
+			}
+		});
 	}
 
 	protected void paintComponent(Graphics g)

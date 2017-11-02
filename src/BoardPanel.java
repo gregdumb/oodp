@@ -64,17 +64,6 @@ public class BoardPanel extends JPanel implements ChangeListener
 			int y = holeStartY + (row * spacingY);
 
 			HoleComponent hole = createCenteredHole(i, x, y, HOLE_SIZE);
-			
-			// This is temporary, but is demo of how we will handle mouse clicks
-			hole.addMouseListener(new MouseAdapter()
-			{
-				@Override
-				public void mouseClicked(MouseEvent e)
-				{
-					model.holeClicked(hole.getId());
-				}
-			});
-			
 			this.add(hole);
 		}
 		

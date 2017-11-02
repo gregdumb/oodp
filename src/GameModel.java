@@ -13,6 +13,9 @@ public class GameModel
 
 	/** Stores how many stones are in each hole */
 	private ArrayList<Integer> holes;
+
+	/** Whos turn it is; player 0 or 1. */
+	private int turn = 0;
 	
 	public GameModel() {
 		listeners = new ArrayList<>();
@@ -44,7 +47,17 @@ public class GameModel
 	private void incrementHole(int index) {
 		int newVal = holes.get(index) + 1;
 		holes.set(index, newVal);
+
+		nextTurn();
+
 		update();
+	}
+
+	/**
+	 * Moves to the next turn
+	 */
+	private void nextTurn() {
+		turn = (turn == 0) ? 1 : 0;
 	}
 	
 	/**
