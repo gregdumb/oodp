@@ -18,6 +18,9 @@ public class BoardPanel extends JPanel implements ChangeListener
 	
 	/** Distance from center of holes to edge of panel */
 	private final int EDGE_PADDING = 100;
+
+	private final int LABEL_SIZE_X = 50;
+	private final int LABEL_SIZE_Y = 20;
 	
 	/** Dimensions of panel */
 	private int width;
@@ -37,24 +40,36 @@ public class BoardPanel extends JPanel implements ChangeListener
 		this.setBackground(Color.CYAN); // Using ugly blue just to see where the board is on the screen
 		
 		// Calculate positioning
+
 		// Size of board, not including padding
 		int boardWidth = width - (2 * EDGE_PADDING);
 		int boardHeight = height - (2 * EDGE_PADDING);
+
 		// Distance between centers of holes
 		int spacingX = boardWidth / (7); // 6 holes and 2 stores
 		int spacingY = boardHeight;
+
 		// Position where the first hole goes
 		int holeStartX = EDGE_PADDING + spacingX;
 		int holeStartY = EDGE_PADDING;
+
 		// Position for center of right store
 		int rightStoreX = width - EDGE_PADDING;
 		int rightStoreY = height / 2;
+
 		// Position for center of left store
 		int leftStoreX = EDGE_PADDING;
 		int leftStoreY = height / 2;
+
 		// Dimensions of stores
 		int storeWidth = HOLE_SIZE;
 		int storeHeight = HOLE_SIZE + spacingY;
+
+		// Position of player 1/2 labels
+		int p1LabelX = (width / 2) - (LABEL_SIZE_X / 2);
+		int p1LabelY = (EDGE_PADDING / 2) - (LABEL_SIZE_Y / 2);
+		int p2LabelX = (width / 2) - (LABEL_SIZE_X / 2);
+		int p2LabelY = height - (EDGE_PADDING / 2) - (LABEL_SIZE_Y / 2);
 		
 		// Create rows of holes
 		for(int i = 0; i < 12; i++) {
@@ -72,9 +87,19 @@ public class BoardPanel extends JPanel implements ChangeListener
 		// Create stores
 		StoreComponent storeR = createCenteredStore(0, rightStoreX, rightStoreY, storeWidth, storeHeight);
 		this.add(storeR);
-		
 		StoreComponent storeL = createCenteredStore(1, leftStoreX, leftStoreY, storeWidth, storeHeight);
 		this.add(storeL);
+
+		// Create "Player 1/2" labels
+		JLabel p1Label = new JLabel("Player 1", SwingConstants.CENTER);
+		p1Label.setLocation(p1LabelX, p1LabelY);
+		p1Label.setSize(LABEL_SIZE_X, LABEL_SIZE_Y);
+		this.add(p1Label);
+
+		JLabel p2Label = new JLabel("Player 2", SwingConstants.CENTER);
+		p2Label.setLocation(p2LabelX, p2LabelY);
+		p2Label.setSize(LABEL_SIZE_X, LABEL_SIZE_Y);
+		this.add(p2Label);
 
 		// Attach as listener so we will repaint when the modal changes
 		model.attachListener(this);

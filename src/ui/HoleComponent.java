@@ -18,11 +18,9 @@ public class HoleComponent extends JComponent
 	/** Holes are numbered like so:
 	 *    0  1  2  3  4  5
 	 *    6  7  8  9  10 11  */
-	private int id;
-	
+	private final int id;
+	private final GameModel model;
 	public int count = 0;
-	
-	public GameModel model;
 
 	// Width/height of hole
 	private int size;
