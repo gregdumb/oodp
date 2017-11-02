@@ -1,3 +1,5 @@
+package ui;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -5,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import logic.GameModel;
 
 /**
  * Created by Greg on 10/31/2017.

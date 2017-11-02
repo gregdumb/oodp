@@ -1,3 +1,6 @@
+import logic.GameModel;
+import ui.GameFrame;
+
 /**
  * Created by Greg on 10/19/2017.
  */

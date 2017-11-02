@@ -1,8 +1,13 @@
+package ui;
+
+import logic.GameModel;
+import ui.BoardPanel;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * GameFrame
+ * ui.GameFrame
  * Swing frame that displays the Mancala game
  */
 public class GameFrame

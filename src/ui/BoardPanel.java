@@ -1,9 +1,11 @@
+package ui;
+
+import logic.GameModel;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * Board Panel
@@ -79,7 +81,7 @@ public class BoardPanel extends JPanel implements ChangeListener
 	}
 
 	/**
-	 * Creates a HoleComponent centered on a location
+	 * Creates a ui.HoleComponent centered on a location
 	 * @param id ID of new hole
 	 * @param x X of center
 	 * @param y Y of center
@@ -99,7 +101,7 @@ public class BoardPanel extends JPanel implements ChangeListener
 	}
 	
 	/**
-	 * Creates a StoreComponent centered on a location
+	 * Creates a ui.StoreComponent centered on a location
 	 * @param id ID of new store
 	 * @param x X of center
 	 * @param y Y of center
