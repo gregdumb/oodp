@@ -37,7 +37,7 @@ public class BoardPanel extends JPanel implements ChangeListener
 		// We want to use absolute positioning, no layout manager
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(width, height));
-		this.setBackground(Color.CYAN); // Using ugly blue just to see where the board is on the screen
+		this.setBackground(new Color(255, 15, 154)); // Using ugly blue just to see where the board is on the screen
 		
 		// Calculate positioning
 
