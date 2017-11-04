@@ -37,7 +37,7 @@ public class BoardPanel extends JPanel implements ChangeListener
 		// We want to use absolute positioning, no layout manager
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(width, height));
-		this.setBackground(new Color(255, 15, 154)); // Using ugly blue just to see where the board is on the screen
+		this.setBackground(new Color(255, 143, 212)); // Using ugly blue just to see where the board is on the screen
 		
 		// Calculate positioning
 
@@ -53,13 +53,10 @@ public class BoardPanel extends JPanel implements ChangeListener
 		int holeStartX = EDGE_PADDING + spacingX;
 		int holeStartY = EDGE_PADDING + spacingY;
 
-		// Position for center of right store
+		// Position for center of stores
 		int rightStoreX = width - EDGE_PADDING;
-		int rightStoreY = height / 2;
-
-		// Position for center of left store
 		int leftStoreX = EDGE_PADDING;
-		int leftStoreY = height / 2;
+		int storeY = height / 2;
 
 		// Dimensions of stores
 		int storeWidth = HOLE_SIZE;
@@ -71,25 +68,38 @@ public class BoardPanel extends JPanel implements ChangeListener
 		int p2LabelX = (width / 2) - (LABEL_SIZE_X / 2);
 		int p2LabelY = (EDGE_PADDING / 2) - (LABEL_SIZE_Y / 2);
 		
-		// Create rows of holes
-		for(int i = 0; i < 12; i++) {
-
-			int row = (i / 6); // Will be 0 on bottom row, 1 on top row
-			int column = (i % 6); // Will be 0-5 for each column
-			int id = Math.abs(11 * row - column); // Will be 0-5 and then 11-6 for top row
-
-			int x = holeStartX + (column * spacingX);
-			int y = holeStartY - (row * spacingY);
-
-			HoleComponent hole = createCenteredHole(id, x, y, HOLE_SIZE);
-			this.add(hole);
+		// Create rows of holes and stores
+		for(int i = 0; i < 14; i++) {
+			
+			// Draw holes
+			if(i != 6 && i != 13)
+			{
+				int row = (i / 7); // Will be 0 on bottom row, 1 on top row
+				int column = (i % 7); // Will be 0-5 for each column
+				int id = (i > 6) ? (19 - i) : i; // Will be 0-5 for bottom row, 12-7 for top row
+				
+				int x = holeStartX + (column * spacingX);
+				int y = holeStartY - (row * spacingY);
+				
+				HoleComponent hole = createCenteredHole(id, x, y, HOLE_SIZE);
+				this.add(hole);
+			}
+			// When i = 6 or 13 we are on a store
+			else
+			{
+				int x = (i == 6) ? rightStoreX : leftStoreX;
+				int y = storeY;
+				
+				StoreComponent store = createCenteredStore(i, x, y, storeWidth, storeHeight);
+				this.add(store);
+			}
 		}
 		
 		// Create stores
-		StoreComponent storeR = createCenteredStore(0, rightStoreX, rightStoreY, storeWidth, storeHeight);
-		this.add(storeR);
-		StoreComponent storeL = createCenteredStore(1, leftStoreX, leftStoreY, storeWidth, storeHeight);
-		this.add(storeL);
+		//StoreComponent storeR = createCenteredStore(0, rightStoreX, rightStoreY, storeWidth, storeHeight);
+		//this.add(storeR);
+		//StoreComponent storeL = createCenteredStore(1, leftStoreX, leftStoreY, storeWidth, storeHeight);
+		//this.add(storeL);
 
 		// Create "Player 1/2" labels
 		JLabel p1Label = new JLabel("Player 1 >>", SwingConstants.CENTER);
@@ -136,7 +146,7 @@ public class BoardPanel extends JPanel implements ChangeListener
 	 * @return the created store
 	 */
 	private StoreComponent createCenteredStore(int id, int x, int y, int width, int height) {
-		StoreComponent newStore = new StoreComponent(id, width, height);
+		StoreComponent newStore = new StoreComponent(id, width, height, model);
 		
 		int actualX = x - (width / 2);
 		int actualY = y - (height / 2);

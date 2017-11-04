@@ -21,7 +21,7 @@ public class GameModel
 	
 	public GameModel() {
 		listeners = new ArrayList<>();
-		holes = new ArrayList<>(Collections.nCopies(12, 4));
+		holes = new ArrayList<>(Collections.nCopies(14, 4));
 		holes.set(3, 1);
 	}
 
