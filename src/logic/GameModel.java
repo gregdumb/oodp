@@ -22,7 +22,8 @@ public class GameModel
 	public GameModel() {
 		listeners = new ArrayList<>();
 		holes = new ArrayList<>(Collections.nCopies(14, 4));
-		holes.set(3, 1);
+		holes.set(6, 0);
+		holes.set(13, 0);
 	}
 
 	/**
@@ -56,6 +57,17 @@ public class GameModel
 	private int getHoleOwner(int index) {
 		int fixedHole = index % 14;
 		return (fixedHole >= 7) ? 1 : 0;
+	}
+
+	private int getOppositeHole(int index) {
+		index = index % 14;
+
+		// Stores don't have an opposite
+		if(index == 6 || index == 13) {
+			return -1;
+		}
+
+		return 12 - index;
 	}
 
 	/**
