@@ -30,7 +30,13 @@ public class GameModel
 	 * @param holeId the hole that was clicked
 	 */
 	public void holeClicked(int holeId) {
-		incrementHole(holeId);
+
+		if(getHoleOwner(holeId) == getCurrentTurn()) {
+			incrementHole(holeId);
+			nextTurn();
+		}
+
+		update();
 	}
 	
 	/**
@@ -41,7 +47,17 @@ public class GameModel
 	public int getCountOfHole(int index) {
 		return holes.get(index);
 	}
-	
+
+	/**
+	 * Get who's side of the board a hole is on
+	 * @param index the hole
+	 * @return player 0 or 1
+	 */
+	private int getHoleOwner(int index) {
+		int fixedHole = index % 14;
+		return (fixedHole >= 7) ? 1 : 0;
+	}
+
 	/**
 	 * FOR DEBUGGING, just adds to a hole
 	 * @param index
@@ -49,10 +65,6 @@ public class GameModel
 	private void incrementHole(int index) {
 		int newVal = holes.get(index) + 1;
 		holes.set(index, newVal);
-
-		nextTurn();
-
-		update();
 	}
 
 	public int getCurrentTurn() {
