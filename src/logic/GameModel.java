@@ -59,6 +59,11 @@ public class GameModel
 		return (fixedHole >= 7) ? 1 : 0;
 	}
 
+	/**
+	 * Find the hole directly on the other side of the board
+	 * @param index starting hole
+	 * @return hole on other side
+	 */
 	private int getOppositeHole(int index) {
 		index = index % 14;
 
