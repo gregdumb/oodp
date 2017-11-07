@@ -32,19 +32,21 @@ public class GameModel
 	 */
 	public void holeClicked(int holeId) {
 
+		// Make sure player clicked on their own hole
 		if(getHoleOwner(holeId) == getCurrentTurn()) {
 
 			boolean keepGoing = true;
 			int position = holeId;
 
 			while(keepGoing) {
-				int hand = holes.get(position);
-				holes.set(position, 0);
+				// Pick up pieces from hole, put in hand
+				int hand = grabHole(position);
 
-				// Place pieces in hand
+				// Take pieces from hand and place on holes
 				while (hand > 0) {
 					position = (position + 1) % 14; // Go to next hole
 
+					// Only put stone down if we are not on the enemy store
 					if (!isOpponentsStore(position)) {
 						incrementHole(position);
 						hand--;
@@ -55,25 +57,37 @@ public class GameModel
 					}
 
 					update();
+
+					try {Thread.sleep(100);} catch (Exception e) {}
 				}
 
 				// Check what to do after hand runs out
+				// Landed on friendly store
 				if (isFriendlyStore(position)) {
 					System.out.println("Landed on friendly store, take another turn");
 					keepGoing = false;
 				}
+				// Landed on hole with stones in it
 				else if (holes.get(position) > 1) {
 					System.out.println("Landed on non-empty hole, continuing");
+					keepGoing = true;
 				}
+				// Landed on empty hole on own side
+				else if (getHoleOwner(position) == getCurrentTurn()) {
+					System.out.println("Landed on own empty hole, capturing opposite");
+					captureHole(position);
+					captureHole(getOppositeHole(position));
+					keepGoing = false;
+					nextTurn();
+				}
+				// Landed on empty hole on enemy side
 				else {
 					keepGoing = false;
 					nextTurn();
 				}
 			}
-
 		}
-
-		update();
+		//update();
 	}
 	
 	/**
@@ -124,6 +138,28 @@ public class GameModel
 		}
 
 		return 12 - index;
+	}
+
+	/**
+	 * Get the pieces in a hole
+	 * @param index hole to grab pieces from
+	 * @return the pieces
+	 */
+	private int grabHole(int index) {
+		int grab = holes.get(index);
+		holes.set(index, 0);
+		return grab;
+	}
+
+	/**
+	 * Takes pieces out of a hole and places them in own store
+	 * @param index hole to get
+	 */
+	private void captureHole(int index) {
+		int grab = grabHole(index);
+		int storeIndex = (turn == 0) ? 6 : 13;
+		int currentStore = holes.get(storeIndex);
+		holes.set(storeIndex, currentStore + grab);
 	}
 
 	/**
