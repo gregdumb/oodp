@@ -22,6 +22,7 @@ public class GameFrame implements ChangeListener
 
 	JFrame frame;
 	JLabel turnLabel;
+	JLabel promptLabel;
 
 	public GameFrame(GameModel model) {
 		
@@ -40,10 +41,12 @@ public class GameFrame implements ChangeListener
 		// Create components
 		BoardPanel boardPanel = new BoardPanel(model, WIDTH, 300);
 		turnLabel = new JLabel("Player 1's turn");
+		promptLabel = new JLabel(model.getStateMessage());
 
 		// Add components & panel to frame
 		panel.add(boardPanel);
 		panel.add(turnLabel);
+		panel.add(promptLabel);
 		frame.add(panel);
 
 		// Show frame
@@ -56,6 +59,7 @@ public class GameFrame implements ChangeListener
 
 		int turn = model.getCurrentTurn() + 1;
 		turnLabel.setText("Player " + Integer.toString(turn) + "'s turn");
+		promptLabel.setText(model.getStateMessage());
 
 		//frame.repaint();
 	}

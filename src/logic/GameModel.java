@@ -18,6 +18,12 @@ public class GameModel
 
 	/** Whos turn it is; player 0 or 1. */
 	private int turn = 0;
+
+	private final int STATE_NEW_TURN = 0;
+	private final int STATE_CONTINUE_TURN = 1;
+	private final int STATE_GAME_OVER = 2;
+
+	private int gameState = 0;
 	
 	public GameModel() {
 		listeners = new ArrayList<>();
@@ -56,7 +62,7 @@ public class GameModel
 						System.out.println("Skipping enemy store");
 					}
 
-					update();
+					//update();
 
 					try {Thread.sleep(100);} catch (Exception e) {}
 				}
@@ -65,6 +71,7 @@ public class GameModel
 				// Landed on friendly store
 				if (isFriendlyStore(position)) {
 					System.out.println("Landed on friendly store, take another turn");
+					setGameState(STATE_CONTINUE_TURN);
 					keepGoing = false;
 				}
 				// Landed on hole with stones in it
@@ -87,7 +94,7 @@ public class GameModel
 				}
 			}
 		}
-		//update();
+		update();
 	}
 	
 	/**
@@ -176,9 +183,34 @@ public class GameModel
 	}
 
 	/**
+	 * Set state (used for displaying messages only)
+	 * @param newState new state
+	 */
+	private void setGameState(int newState) {
+		gameState = newState;
+	}
+
+	public String getStateMessage() {
+		switch(gameState) {
+			case STATE_NEW_TURN:
+				return "Select a hole to pick up the pieces";
+
+			case STATE_CONTINUE_TURN:
+				return "You landed on your own store; continue your turn";
+
+			case STATE_GAME_OVER:
+				return "Game over!";
+
+			default:
+				return "Idk what's going on";
+		}
+	}
+
+	/**
 	 * Moves to the next turn
 	 */
 	private void nextTurn() {
+		setGameState(STATE_NEW_TURN);
 		turn = (turn == 0) ? 1 : 0;
 	}
 	
