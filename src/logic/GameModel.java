@@ -33,8 +33,44 @@ public class GameModel
 	public void holeClicked(int holeId) {
 
 		if(getHoleOwner(holeId) == getCurrentTurn()) {
-			incrementHole(holeId);
-			nextTurn();
+
+			boolean keepGoing = true;
+			int position = holeId;
+
+			while(keepGoing) {
+				int hand = holes.get(position);
+				holes.set(position, 0);
+
+				// Place pieces in hand
+				while (hand > 0) {
+					position = (position + 1) % 14; // Go to next hole
+
+					if (!isOpponentsStore(position)) {
+						incrementHole(position);
+						hand--;
+						System.out.println("Placing stone, holding " + Integer.toString(hand) + " more");
+					}
+					else {
+						System.out.println("Skipping enemy store");
+					}
+
+					update();
+				}
+
+				// Check what to do after hand runs out
+				if (isFriendlyStore(position)) {
+					System.out.println("Landed on friendly store, take another turn");
+					keepGoing = false;
+				}
+				else if (holes.get(position) > 1) {
+					System.out.println("Landed on non-empty hole, continuing");
+				}
+				else {
+					keepGoing = false;
+					nextTurn();
+				}
+			}
+
 		}
 
 		update();
@@ -57,6 +93,21 @@ public class GameModel
 	private int getHoleOwner(int index) {
 		int fixedHole = index % 14;
 		return (fixedHole >= 7) ? 1 : 0;
+	}
+
+	/**
+	 * Check if a hole/store is the opponents store
+	 * @param index index to check
+	 * @return true if is enemy store, false if is not
+	 */
+	private boolean isOpponentsStore(int index) {
+		int opponentStore = (turn == 0) ? 13 : 6;
+		return (index == opponentStore);
+	}
+
+	private boolean isFriendlyStore(int index) {
+		int friendlyStore = (turn == 0) ? 6 : 13;
+		return (index == friendlyStore);
 	}
 
 	/**
