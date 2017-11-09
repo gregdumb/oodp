@@ -11,15 +11,20 @@ import java.util.Collections;
 /**
  * Controls game logic
  */
-public class GameModel
-{
-	/** Listeners that will update when the modal changes */
+public class GameModel {
+	/**
+	 * Listeners that will update when the modal changes
+	 */
 	private ArrayList<ChangeListener> listeners;
 
-	/** Stores how many stones are in each hole */
+	/**
+	 * Stores how many stones are in each hole
+	 */
 	private ArrayList<Integer> holes;
 
-	/** Whos turn it is; player 0 or 1. */
+	/**
+	 * Whos turn it is; player 0 or 1.
+	 */
 	private int turn = 0;
 
 	private final int STATE_NEW_TURN = 0;
@@ -28,7 +33,7 @@ public class GameModel
 
 	private int gameState = 0;
 	private int savedPosition = 0;
-	
+
 	public GameModel() {
 		listeners = new ArrayList<>();
 		holes = new ArrayList<>(Collections.nCopies(14, 4));
@@ -38,12 +43,13 @@ public class GameModel
 
 	/**
 	 * Called by hole when it's clicked on
+	 *
 	 * @param holeId the hole that was clicked
 	 */
 	public void holeClicked(int holeId) {
 
 		// Make sure player clicked on their own hole
-		if(getHoleOwner(holeId) == getCurrentTurn()) {
+		if (getHoleOwner(holeId) == getCurrentTurn()) {
 
 			int position = holeId;
 
@@ -54,7 +60,7 @@ public class GameModel
 
 	private void takeTurn(int position) {
 		boolean keepGoing = true;
-		while(keepGoing) {
+		while (keepGoing) {
 			// Pick up pieces from hole, put in hand
 			int hand = grabHole(position);
 
@@ -67,36 +73,32 @@ public class GameModel
 					incrementHole(position);
 					hand--;
 					System.out.println("Placing stone, holding " + Integer.toString(hand) + " more");
-				}
-				else {
+				} else {
 					System.out.println("Skipping enemy store");
 				}
 
-				try
-				{
+				update();
+
+				try {
 					Thread.sleep(100);
-				} catch (Exception e)
-				{
+				} catch (Exception e) {
 				}
 			}
 
 			// Check what to do after hand runs out
 			// Landed on friendly store
-			if (isFriendlyStore(position))
-			{
+			if (isFriendlyStore(position)) {
 				System.out.println("Landed on friendly store, take another turn");
 				setGameState(STATE_CONTINUE_TURN);
 				keepGoing = false;
 			}
 			// Landed on hole with stones in it
-			else if (holes.get(position) > 1)
-			{
+			else if (holes.get(position) > 1) {
 				System.out.println("Landed on non-empty hole, continuing");
 				keepGoing = true;
 			}
 			// Landed on empty hole on own side
-			else if (getHoleOwner(position) == getCurrentTurn())
-			{
+			else if (getHoleOwner(position) == getCurrentTurn()) {
 				System.out.println("Landed on own empty hole, capturing opposite");
 				captureHole(position);
 				captureHole(getOppositeHole(position));
@@ -104,16 +106,16 @@ public class GameModel
 				nextTurn();
 			}
 			// Landed on empty hole on enemy side
-			else
-			{
+			else {
 				keepGoing = false;
 				nextTurn();
 			}
 		}
 	}
-	
+
 	/**
 	 * Get how many stones are in a hole
+	 *
 	 * @param index Index of hole
 	 * @return number of stones
 	 */
@@ -123,6 +125,7 @@ public class GameModel
 
 	/**
 	 * Get who's side of the board a hole is on
+	 *
 	 * @param index the hole
 	 * @return player 0 or 1
 	 */
@@ -133,6 +136,7 @@ public class GameModel
 
 	/**
 	 * Check if a hole/store is the opponents store
+	 *
 	 * @param index index to check
 	 * @return true if is enemy store, false if is not
 	 */
@@ -148,6 +152,7 @@ public class GameModel
 
 	/**
 	 * Find the hole directly on the other side of the board
+	 *
 	 * @param index starting hole
 	 * @return hole on other side
 	 */
@@ -155,7 +160,7 @@ public class GameModel
 		index = index % 14;
 
 		// Stores don't have an opposite
-		if(index == 6 || index == 13) {
+		if (index == 6 || index == 13) {
 			return -1;
 		}
 
@@ -164,6 +169,7 @@ public class GameModel
 
 	/**
 	 * Get the pieces in a hole
+	 *
 	 * @param index hole to grab pieces from
 	 * @return the pieces
 	 */
@@ -175,6 +181,7 @@ public class GameModel
 
 	/**
 	 * Takes pieces out of a hole and places them in own store
+	 *
 	 * @param index hole to get
 	 */
 	private void captureHole(int index) {
@@ -186,6 +193,7 @@ public class GameModel
 
 	/**
 	 * FOR DEBUGGING, just adds to a hole
+	 *
 	 * @param index
 	 */
 	private void incrementHole(int index) {
@@ -199,6 +207,7 @@ public class GameModel
 
 	/**
 	 * Set state (used for displaying messages only)
+	 *
 	 * @param newState new state
 	 */
 	private void setGameState(int newState) {
@@ -206,7 +215,7 @@ public class GameModel
 	}
 
 	public String getStateMessage() {
-		switch(gameState) {
+		switch (gameState) {
 			case STATE_NEW_TURN:
 				return "Select a hole to pick up the pieces";
 
@@ -228,24 +237,25 @@ public class GameModel
 		setGameState(STATE_NEW_TURN);
 		turn = (turn == 0) ? 1 : 0;
 	}
-	
+
 	/**
 	 * Attach a new listener
+	 *
 	 * @param l
 	 */
 	public void attachListener(ChangeListener l) {
 		listeners.add(l);
 	}
-	
+
 	/**
 	 * This needs to be called to update the attached listener
 	 */
 	private void update() {
-		for(ChangeListener l : listeners) {
+		for (ChangeListener l : listeners) {
 			l.stateChanged(new ChangeEvent(this));
 		}
 	}
-	
+
 }
 
 
