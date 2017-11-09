@@ -1,7 +1,10 @@
 package logic;
 
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -24,6 +27,7 @@ public class GameModel
 	private final int STATE_GAME_OVER = 2;
 
 	private int gameState = 0;
+	private int savedPosition = 0;
 	
 	public GameModel() {
 		listeners = new ArrayList<>();
@@ -41,60 +45,71 @@ public class GameModel
 		// Make sure player clicked on their own hole
 		if(getHoleOwner(holeId) == getCurrentTurn()) {
 
-			boolean keepGoing = true;
 			int position = holeId;
 
-			while(keepGoing) {
-				// Pick up pieces from hole, put in hand
-				int hand = grabHole(position);
-
-				// Take pieces from hand and place on holes
-				while (hand > 0) {
-					position = (position + 1) % 14; // Go to next hole
-
-					// Only put stone down if we are not on the enemy store
-					if (!isOpponentsStore(position)) {
-						incrementHole(position);
-						hand--;
-						System.out.println("Placing stone, holding " + Integer.toString(hand) + " more");
-					}
-					else {
-						System.out.println("Skipping enemy store");
-					}
-
-					//update();
-
-					try {Thread.sleep(100);} catch (Exception e) {}
-				}
-
-				// Check what to do after hand runs out
-				// Landed on friendly store
-				if (isFriendlyStore(position)) {
-					System.out.println("Landed on friendly store, take another turn");
-					setGameState(STATE_CONTINUE_TURN);
-					keepGoing = false;
-				}
-				// Landed on hole with stones in it
-				else if (holes.get(position) > 1) {
-					System.out.println("Landed on non-empty hole, continuing");
-					keepGoing = true;
-				}
-				// Landed on empty hole on own side
-				else if (getHoleOwner(position) == getCurrentTurn()) {
-					System.out.println("Landed on own empty hole, capturing opposite");
-					captureHole(position);
-					captureHole(getOppositeHole(position));
-					keepGoing = false;
-					nextTurn();
-				}
-				// Landed on empty hole on enemy side
-				else {
-					keepGoing = false;
-					nextTurn();
-				}
-			}
+			takeTurn(position);
 		}
 		update();
+	}
+
+	private void takeTurn(int position) {
+		boolean keepGoing = true;
+		while(keepGoing) {
+			// Pick up pieces from hole, put in hand
+			int hand = grabHole(position);
+
+			// Take pieces from hand and place on holes
+			while (hand > 0) {
+				position = (position + 1) % 14; // Go to next hole
+
+				// Only put stone down if we are not on the enemy store
+				if (!isOpponentsStore(position)) {
+					incrementHole(position);
+					hand--;
+					System.out.println("Placing stone, holding " + Integer.toString(hand) + " more");
+				}
+				else {
+					System.out.println("Skipping enemy store");
+				}
+
+				try
+				{
+					Thread.sleep(100);
+				} catch (Exception e)
+				{
+				}
+			}
+
+			// Check what to do after hand runs out
+			// Landed on friendly store
+			if (isFriendlyStore(position))
+			{
+				System.out.println("Landed on friendly store, take another turn");
+				setGameState(STATE_CONTINUE_TURN);
+				keepGoing = false;
+			}
+			// Landed on hole with stones in it
+			else if (holes.get(position) > 1)
+			{
+				System.out.println("Landed on non-empty hole, continuing");
+				keepGoing = true;
+			}
+			// Landed on empty hole on own side
+			else if (getHoleOwner(position) == getCurrentTurn())
+			{
+				System.out.println("Landed on own empty hole, capturing opposite");
+				captureHole(position);
+				captureHole(getOppositeHole(position));
+				keepGoing = false;
+				nextTurn();
+			}
+			// Landed on empty hole on enemy side
+			else
+			{
+				keepGoing = false;
+				nextTurn();
+			}
+		}
 	}
 	
 	/**
