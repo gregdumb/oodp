@@ -27,6 +27,12 @@ public class GameModel {
 	 */
 	private int turn = 0;
 
+	/**
+	 * The number of pieces we are currently holding in our hand
+	 */
+	private int hand = 0;
+	private int position;
+
 	private final int STATE_NEW_TURN = 0;
 	private final int STATE_CONTINUE_TURN = 1;
 	private final int STATE_GAME_OVER = 2;
@@ -51,66 +57,99 @@ public class GameModel {
 		// Make sure player clicked on their own hole
 		if (getHoleOwner(holeId) == getCurrentTurn()) {
 
-			int position = holeId;
+			position = holeId;
 
-			takeTurn(position);
+			takeTurn();
 		}
 		update();
 	}
 
-	private void takeTurn(int position) {
-		boolean keepGoing = true;
-		while (keepGoing) {
-			// Pick up pieces from hole, put in hand
-			int hand = grabHole(position);
+	/**
+	 * This starts the chain of picking up the pieces
+	 * in a hole and placing them in the subsequent holes.
+	 */
+	private void takeTurn() {
 
-			// Take pieces from hand and place on holes
-			while (hand > 0) {
-				position = (position + 1) % 14; // Go to next hole
+		// Pick up pieces from hole, put in hand
+		hand = grabHole(position);
 
-				// Only put stone down if we are not on the enemy store
-				if (!isOpponentsStore(position)) {
-					incrementHole(position);
-					hand--;
-					System.out.println("Placing stone, holding " + Integer.toString(hand) + " more");
-				} else {
-					System.out.println("Skipping enemy store");
-				}
+		// Take pieces from hand and place on holes
+		placeFromHand();
+	}
 
-				update();
+	/**
+	 * This recursively calls itself to take pieces out
+	 * of the hand until the hand is empty
+	 * @return
+	 */
+	private int placeFromHand() {
+		// Go to next hole
+		position = (position + 1) % 14;
 
-				try {
-					Thread.sleep(100);
-				} catch (Exception e) {
-				}
-			}
-
-			// Check what to do after hand runs out
-			// Landed on friendly store
-			if (isFriendlyStore(position)) {
-				System.out.println("Landed on friendly store, take another turn");
-				setGameState(STATE_CONTINUE_TURN);
-				keepGoing = false;
-			}
-			// Landed on hole with stones in it
-			else if (holes.get(position) > 1) {
-				System.out.println("Landed on non-empty hole, continuing");
-				keepGoing = true;
-			}
-			// Landed on empty hole on own side
-			else if (getHoleOwner(position) == getCurrentTurn()) {
-				System.out.println("Landed on own empty hole, capturing opposite");
-				captureHole(position);
-				captureHole(getOppositeHole(position));
-				keepGoing = false;
-				nextTurn();
-			}
-			// Landed on empty hole on enemy side
-			else {
-				keepGoing = false;
-				nextTurn();
-			}
+		// Make sure we skip the enemy store
+		if (!isOpponentsStore(position)) {
+			// Put a piece down if we are NOT on the enemy store
+			incrementHole(position);
+			hand--;
+			System.out.println("Landed on hole: " + Integer.toString(position));
+			System.out.println("  Placing stone, holding " + Integer.toString(hand) + " more");
+		} else {
+			System.out.println("  Skipping enemy store");
 		}
+
+		// Update the GUI
+		update();
+
+		// If there are more pieces, call ourselves; otherwise end the chain.
+		if(hand > 0) {
+			placeFromHand();
+		}
+		else {
+			endTurn();
+		}
+
+		return 1;
+	}
+
+	/**
+	 * When the hand runs out of pieces, this is called to
+	 * determine what to do.
+	 */
+	private void endTurn() {
+
+		boolean keepGoing = false;
+
+		// Check what to do after hand runs out
+		// If we landed on friendly store:
+		if (isFriendlyStore(position)) {
+			System.out.println("Landed on friendly store, take another turn");
+			setGameState(STATE_CONTINUE_TURN);
+			keepGoing = false;
+		}
+		// If we landed on hole with stones in it:
+		else if (holes.get(position) > 1) {
+			System.out.println("Landed on non-empty hole, continuing");
+			keepGoing = true;
+		}
+		// If we landed on empty hole on own side:
+		else if (getHoleOwner(position) == getCurrentTurn()) {
+			System.out.println("Landed on own empty hole, capturing opposite");
+			captureHole(position);
+			captureHole(getOppositeHole(position));
+			keepGoing = false;
+			nextTurn();
+		}
+		// If we landed on empty hole on enemy side:
+		else {
+			keepGoing = false;
+			nextTurn();
+		}
+
+		if(keepGoing) {
+			takeTurn();
+		}
+
+		update();
 	}
 
 	/**
