@@ -58,6 +58,10 @@ public class GameModel {
 		update();
 	}
 
+	/**
+	 * Executes a player's turn.
+	 * @param position
+	 */
 	private void takeTurn(int position) {
 
 		boolean keepGoing = true;
