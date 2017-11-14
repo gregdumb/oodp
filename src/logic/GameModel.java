@@ -64,28 +64,10 @@ public class GameModel {
 		while (keepGoing) {
 			// Pick up pieces from hole, put in hand
 			int hand = grabHole(position);
+
+			//place move pieces in hand to hole
 			placePiece(hand, position);
 
-/*
-			while (hand > 0) {
-				position = (position + 1) % 14; // Go to next hole
-
-				// Only put stone down if we are not on the enemy store
-				if (!isOpponentsStore(position)) {
-					incrementHole(position);
-					hand--;
-					System.out.println("Placing stone, holding " + Integer.toString(hand) + " more");
-				} else {
-					System.out.println("Skipping enemy store");
-				}
-
-				update();
-
-
-				// Take pieces from hand and place on holes
-
-
-*/
 			// Check what to do after hand runs out
 			// Landed on friendly store
 			if (isFriendlyStore(position)) {
@@ -114,7 +96,11 @@ public class GameModel {
 		}
 	}
 
-
+	/**
+	 * Places peices player's hand to accessible hole
+	 * @param h the pieces in hand
+	 * @param p the position
+	 */
 	private void placePiece(int h, int p) {
 		while (h > 0) {
 			p = (p + 1) % 14; // Go to next hole
