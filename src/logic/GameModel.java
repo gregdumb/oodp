@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.TimerTask;
+import java.util.Timer;
 
 /**
  * Controls game logic
@@ -33,12 +35,13 @@ public class GameModel {
 	private int hand = 0;
 	private int position;
 
+	private final int ANIMATION_DELAY = 500; //ms
+
 	private final int STATE_NEW_TURN = 0;
 	private final int STATE_CONTINUE_TURN = 1;
 	private final int STATE_GAME_OVER = 2;
 
 	private int gameState = 0;
-	private int savedPosition = 0;
 
 	public GameModel() {
 		listeners = new ArrayList<>();
@@ -102,7 +105,17 @@ public class GameModel {
 
 		// If there are more pieces, call ourselves; otherwise end the chain.
 		if(hand > 0) {
-			placeFromHand();
+			// Create task for next placement
+			TimerTask nextMoveTask = new TimerTask() {
+				@Override
+				public void run() {
+					placeFromHand();
+				}
+			};
+
+			// Start the timer to show the next move
+			Timer newTimer = new Timer();
+			newTimer.schedule(nextMoveTask, ANIMATION_DELAY);
 		}
 		else {
 			endTurn();
@@ -245,6 +258,28 @@ public class GameModel {
 	}
 
 	/**
+	 * Checks if a side is empty
+	 * @return true if a side is empty
+	 */
+	private boolean checkGameOver() {
+		boolean empty0 = true;
+		boolean empty1 = true;
+
+		for(int i = 0; i < 6; i++) {
+			empty0 = (empty0) && (holes.get(i) == 0);
+		}
+
+		for(int i = 7; i < 13; i++) {
+			empty1 = (empty1) && (holes.get(i) == 0);
+		}
+
+		if(empty0) System.out.println("Side 0 is empty!!");
+		if(empty1) System.out.println("Side 1 is empty!!");
+
+		return empty0 || empty1;
+	}
+
+	/**
 	 * Set state (used for displaying messages only)
 	 *
 	 * @param newState new state
@@ -275,6 +310,8 @@ public class GameModel {
 	private void nextTurn() {
 		setGameState(STATE_NEW_TURN);
 		turn = (turn == 0) ? 1 : 0;
+
+		checkGameOver();
 	}
 
 	/**
