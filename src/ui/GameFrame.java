@@ -53,6 +53,10 @@ public class GameFrame implements ChangeListener
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
+
+		// Show starting dialog
+		StartDialog dialog = new StartDialog();
+		dialog.setVisible(true);
 	}
 
 	public void stateChanged(ChangeEvent e) {
