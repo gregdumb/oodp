@@ -15,7 +15,7 @@ public class BoardPanel extends JPanel implements ChangeListener {
 	/**
 	 * Diameter of the holes
 	 */
-	private final int HOLE_SIZE = 50;
+	private final int HOLE_SIZE = 100;
 
 	/**
 	 * Distance from center of holes to edge of panel

@@ -35,7 +35,7 @@ public class GameModel {
 	private int hand = 0;
 	private int position;
 
-	private final int ANIMATION_DELAY = 500; //ms
+	private final int ANIMATION_DELAY = 250; //ms
 
 	private final int STATE_NEW_TURN = 0;
 	private final int STATE_CONTINUE_TURN = 1;
@@ -133,8 +133,12 @@ public class GameModel {
 		boolean keepGoing = false;
 
 		// Check what to do after hand runs out
+		// If a side is empty
+		if (checkGameOver()) {
+			keepGoing = false;
+		}
 		// If we landed on friendly store:
-		if (isFriendlyStore(position)) {
+		else if (isFriendlyStore(position)) {
 			System.out.println("Landed on friendly store, take another turn");
 			setGameState(STATE_CONTINUE_TURN);
 			keepGoing = false;
@@ -273,8 +277,32 @@ public class GameModel {
 			empty1 = (empty1) && (holes.get(i) == 0);
 		}
 
-		if(empty0) System.out.println("Side 0 is empty!!");
-		if(empty1) System.out.println("Side 1 is empty!!");
+		// If game is over, Grab remaining pieces and put them in store
+
+		if(empty0 || empty1) {
+			int sum0 = 0;
+			int sum1 = 0;
+
+			for (int i = 0; i <= 5; i++) {
+				sum0 += grabHole(i);
+			}
+
+			for (int i = 7; i <= 12; i++) {
+				sum1 += grabHole(i);
+			}
+
+			// Put pieces in store
+			holes.set(6, holes.get(6) + sum0);
+			holes.set(13, holes.get(13) + sum1);
+
+			if (holes.get(13) == holes.get(6)) {
+				System.out.println("It's a tie!");
+			} else if (holes.get(13) > holes.get(6)) {
+				System.out.println("Player 2 won!!");
+			} else {
+				System.out.println("Player 1 won!");
+			}
+		}
 
 		return empty0 || empty1;
 	}
