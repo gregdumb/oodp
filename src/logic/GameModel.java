@@ -58,7 +58,7 @@ public class GameModel {
 	public void holeClicked(int holeId) {
 
 		// Make sure player clicked on their own hole
-		if (getHoleOwner(holeId) == getCurrentTurn()) {
+		if (getHoleOwner(holeId) == getCurrentTurn() && holes.get(holeId) > 0) {
 
 			position = holeId;
 
