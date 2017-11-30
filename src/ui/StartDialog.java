@@ -15,14 +15,16 @@ import java.awt.*;
  */
 public class StartDialog extends JDialog {
 
+	private final int GAP = 10;
+
 	public StartDialog(GameModel model) {
 		// Force on top
 		this.setModal(true);
 		this.setResizable(false);
 		this.setTitle("Game Options");
 
-		JPanel panel = new JPanel(new BorderLayout(10, 10));
-		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		JPanel panel = new JPanel(new BorderLayout(GAP, GAP));
+		panel.setBorder(new EmptyBorder(GAP, GAP, GAP, GAP));
 
 		// Dialog title label
 		JLabel titleLabel = new JLabel("Select your game options");
