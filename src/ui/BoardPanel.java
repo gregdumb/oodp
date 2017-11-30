@@ -98,12 +98,6 @@ public class BoardPanel extends JPanel implements ChangeListener {
 			}
 		}
 
-		// Create stores
-		//StoreComponent storeR = createCenteredStore(0, rightStoreX, rightStoreY, storeWidth, storeHeight);
-		//this.add(storeR);
-		//StoreComponent storeL = createCenteredStore(1, leftStoreX, leftStoreY, storeWidth, storeHeight);
-		//this.add(storeL);
-
 		// Create "Player 1/2" labels
 		JLabel p1Label = new JLabel("Player 1 >>", SwingConstants.CENTER);
 		p1Label.setLocation(p1LabelX, p1LabelY);

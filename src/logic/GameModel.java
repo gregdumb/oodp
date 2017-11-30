@@ -50,6 +50,17 @@ public class GameModel {
 		holes.set(13, 0);
 	}
 
+	public void initialize(int defaultEachHole) {
+
+		if(defaultEachHole < 1) return;
+
+		Collections.fill(holes, defaultEachHole);
+		holes.set(6, 0);
+		holes.set(13, 0);
+
+		update();
+	}
+
 	/**
 	 * Called by hole when it's clicked on
 	 *

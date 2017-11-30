@@ -20,9 +20,10 @@ public class GameFrame implements ChangeListener
 	
 	private GameModel model;
 
-	JFrame frame;
-	JLabel turnLabel;
-	JLabel promptLabel;
+	private final JFrame frame;
+	private final JLabel turnLabel;
+	private final JLabel promptLabel;
+	private final StartDialog dialog;
 
 	public GameFrame(GameModel model) {
 		
@@ -55,7 +56,7 @@ public class GameFrame implements ChangeListener
 		frame.setVisible(true);
 
 		// Show starting dialog
-		StartDialog dialog = new StartDialog();
+		dialog = new StartDialog(model);
 		dialog.setVisible(true);
 	}
 
