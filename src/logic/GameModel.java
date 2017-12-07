@@ -23,11 +23,14 @@ public class GameModel {
 	 * Stores how many stones are in each hole
 	 */
 	private ArrayList<Integer> holes;
+	
+	private ArrayList<Integer> undoState;
+	private int undoTurn = 0;
 
 	/**
 	 * Whos turn it is; player 0 or 1.
 	 */
-	private int turn = 0;
+	private int turn = -1;
 
 	/**
 	 * The number of pieces we are currently holding in our hand
@@ -46,6 +49,7 @@ public class GameModel {
 	public GameModel() {
 		listeners = new ArrayList<>();
 		holes = new ArrayList<>(Collections.nCopies(14, 4));
+		undoState = new ArrayList<>(Collections.nCopies(14, 0));
 		holes.set(6, 0);
 		holes.set(13, 0);
 	}
@@ -57,6 +61,9 @@ public class GameModel {
 		Collections.fill(holes, defaultEachHole);
 		holes.set(6, 0);
 		holes.set(13, 0);
+		
+		turn = 0;
+		undoTurn = -1;
 
 		update();
 	}
@@ -84,6 +91,8 @@ public class GameModel {
 	 */
 	private void takeTurn() {
 
+		saveUndoState();
+		
 		// Pick up pieces from hole, put in hand
 		hand = grabHole(position);
 
@@ -351,6 +360,40 @@ public class GameModel {
 		turn = (turn == 0) ? 1 : 0;
 
 		checkGameOver();
+	}
+	
+	/**
+	 * Saves state of the holes & turn
+	 */
+	private void saveUndoState() {
+		
+		undoTurn = turn;
+		
+		for(int i = 0; i < holes.size(); i++) {
+			undoState.set(i, holes.get(i));
+		}
+	}
+	
+	/**
+	 * Undoes last move
+	 */
+	public void undo() {
+		
+		if(undoTurn == -1) {
+			System.out.println("Cannot undo");
+			return;
+		}
+		
+		System.out.println("Undoing");
+		
+		for(int i = 0; i < holes.size(); i++) {
+			holes.set(i, undoState.get(i));
+		}
+		
+		turn = undoTurn;
+		undoTurn = -1;
+		
+		update();
 	}
 
 	/**

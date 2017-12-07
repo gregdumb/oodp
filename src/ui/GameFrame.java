@@ -36,6 +36,9 @@ public class GameFrame implements ChangeListener
 		frame.setTitle(TITLE);
 		frame.setResizable(false);
 		
+		// Create dialog
+		dialog = new StartDialog(model);
+		
 		// Create panel
 		JPanel panel = new JPanel();
 		
@@ -43,11 +46,25 @@ public class GameFrame implements ChangeListener
 		BoardPanel boardPanel = new BoardPanel(model, WIDTH, (int)(HEIGHT * 0.6));
 		turnLabel = new JLabel("Player 1's turn");
 		promptLabel = new JLabel(model.getStateMessage());
-
+		
+		// New game button
+		JButton newButton = new JButton("New Game");
+		newButton.addActionListener(e -> {
+			dialog.setVisible(true);
+		});
+		
+		// Undo button
+		JButton undoButton = new JButton("Undo");
+		undoButton.addActionListener(e -> {
+			model.undo();
+		});
+		
 		// Add components & panel to frame
 		panel.add(boardPanel);
 		panel.add(turnLabel);
 		panel.add(promptLabel);
+		panel.add(newButton);
+		panel.add(undoButton);
 		frame.add(panel);
 
 		// Show frame
@@ -56,7 +73,6 @@ public class GameFrame implements ChangeListener
 		frame.setVisible(true);
 
 		// Show starting dialog
-		dialog = new StartDialog(model);
 		dialog.setVisible(true);
 	}
 
