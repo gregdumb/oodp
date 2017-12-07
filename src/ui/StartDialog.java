@@ -30,13 +30,21 @@ public class StartDialog extends JDialog {
 		JLabel titleLabel = new JLabel("Select your game options");
 
 		// Combo label
-		JLabel comboLabel = new JLabel("Pieces/hole:");
+		JLabel comboLabel = new JLabel("Pieces/hole: ");
 		comboLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-
+		
 		// Starting pieces combo
 		String[] startingOptions = {"3", "4"};
 		JComboBox numPiecesCombo = new JComboBox(startingOptions);
 
+		// Style label
+		JLabel styleLabel = new JLabel("Style: ");
+		styleLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		// Style combo
+		String[] styles = {"Red", "Blue"};
+		JComboBox styleCombo = new JComboBox(styles);
+		
 		// Play button
 		JButton playButton = new JButton("Play");
 
@@ -46,11 +54,31 @@ public class StartDialog extends JDialog {
 			model.initialize(selectedInt);
 			this.setVisible(false);
 		});
-
+		
+		JPanel inputPanel = new JPanel();
+		inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.PAGE_AXIS));
+		
+		// Num pieces row
+		JPanel numPanel = new JPanel();
+		numPanel.setLayout(new BoxLayout(numPanel, BoxLayout.LINE_AXIS));
+		
+		// Style row
+		JPanel stylePanel = new JPanel();
+		stylePanel.setLayout(new BoxLayout(stylePanel, BoxLayout.LINE_AXIS));
+		
 		// Add components
 		panel.add(titleLabel, BorderLayout.PAGE_START);
-		panel.add(comboLabel, BorderLayout.LINE_START);
-		panel.add(numPiecesCombo, BorderLayout.CENTER);
+		
+		numPanel.add(comboLabel);
+		numPanel.add(numPiecesCombo);
+		inputPanel.add(numPanel);
+		
+		stylePanel.add(styleLabel);
+		stylePanel.add(styleCombo);
+		inputPanel.add(stylePanel);
+		
+		panel.add(inputPanel, BorderLayout.CENTER);
+		
 		panel.add(playButton, BorderLayout.PAGE_END);
 		this.add(panel);
 		this.pack();
