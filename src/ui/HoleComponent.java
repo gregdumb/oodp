@@ -54,6 +54,17 @@ public class HoleComponent extends JComponent {
 		g2d.drawString(Integer.toString(model.getCountOfHole(id)), size / 2, size / 2);
 		g2d.drawString(Integer.toString(this.getId()), 0, 10);
 	}
+	
+	/**
+	 * Draws the marble
+	 * @param g
+	 */
+	public void createMarbles(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
+		
+		g2d.drawOval(0, 0, size -10, size -10);
+	}
 
 	public int getId() {
 		return id;
