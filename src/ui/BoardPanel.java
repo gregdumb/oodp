@@ -8,14 +8,19 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 /**
- * Board Panel
- * JPanel that contains the circles and stuff for the mancala board
+ * Board Panel JPanel that contains the circles and stuff for the mancala board
  */
 public class BoardPanel extends JPanel implements ChangeListener {
 	/**
 	 * Diameter of the holes
 	 */
-	private final int HOLE_SIZE = 100;
+	private final int HOLE_SIZE = 50;
+	
+	
+	/**
+	 * Diameter of the marbles
+	 */
+	private final int MARBLE_SIZE = 20;
 
 	/**
 	 * Distance from center of holes to edge of panel
@@ -76,7 +81,7 @@ public class BoardPanel extends JPanel implements ChangeListener {
 		// Create rows of holes and stores
 		for (int i = 0; i < 14; i++) {
 
-			// Draw holes
+			// Draw holes && draw marbles
 			if (i != 6 && i != 13) {
 				int row = (i / 7); // Will be 0 on bottom row, 1 on top row
 				int column = (i % 7); // Will be 0-5 for each column
@@ -86,7 +91,9 @@ public class BoardPanel extends JPanel implements ChangeListener {
 				int y = holeStartY - (row * spacingY);
 
 				HoleComponent hole = createCenteredHole(id, x, y, HOLE_SIZE);
+				HoleComponent marble = createMarble(id, x, y, MARBLE_SIZE);
 				this.add(hole);
+				this.add(marble);
 			}
 			// When i = 6 or 13 we are on a store
 			else {
@@ -97,6 +104,14 @@ public class BoardPanel extends JPanel implements ChangeListener {
 				this.add(store);
 			}
 		}
+
+		// Create stores
+		// StoreComponent storeR = createCenteredStore(0, rightStoreX, rightStoreY,
+		// storeWidth, storeHeight);
+		// this.add(storeR);
+		// StoreComponent storeL = createCenteredStore(1, leftStoreX, leftStoreY,
+		// storeWidth, storeHeight);
+		// this.add(storeL);
 
 		// Create "Player 1/2" labels
 		JLabel p1Label = new JLabel("Player 1 >>", SwingConstants.CENTER);
@@ -116,10 +131,14 @@ public class BoardPanel extends JPanel implements ChangeListener {
 	/**
 	 * Creates a ui.HoleComponent centered on a location
 	 *
-	 * @param id   ID of new hole
-	 * @param x    X of center
-	 * @param y    Y of center
-	 * @param size Size of hole (diameter)
+	 * @param id
+	 *            ID of new hole
+	 * @param x
+	 *            X of center
+	 * @param y
+	 *            Y of center
+	 * @param size
+	 *            Size of hole (diameter)
 	 * @return the created hole
 	 */
 	private HoleComponent createCenteredHole(int id, int x, int y, int size) {
@@ -133,15 +152,31 @@ public class BoardPanel extends JPanel implements ChangeListener {
 
 		return newHole;
 	}
+	
+	private HoleComponent createMarble(int id, int x, int y, int size) {
+		HoleComponent newHole = new HoleComponent(id, size, model);
+		
+		int actualX = x - (size/5);
+		int actualY = y - (size/5);
+		
+		newHole.setLocation(actualX, actualY);
+		
+		return newHole;
+	}
 
 	/**
 	 * Creates a ui.StoreComponent centered on a location
 	 *
-	 * @param id     ID of new store
-	 * @param x      X of center
-	 * @param y      Y of center
-	 * @param width  Width of store
-	 * @param height Height of store
+	 * @param id
+	 *            ID of new store
+	 * @param x
+	 *            X of center
+	 * @param y
+	 *            Y of center
+	 * @param width
+	 *            Width of store
+	 * @param height
+	 *            Height of store
 	 * @return the created store
 	 */
 	private StoreComponent createCenteredStore(int id, int x, int y, int width, int height) {
@@ -164,4 +199,5 @@ public class BoardPanel extends JPanel implements ChangeListener {
 		this.revalidate();
 		this.repaint();
 	}
+
 }

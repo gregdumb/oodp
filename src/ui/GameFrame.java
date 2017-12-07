@@ -14,16 +14,15 @@ import java.awt.*;
  */
 public class GameFrame implements ChangeListener
 {
-	private final int WIDTH = 1280;
-	private final int HEIGHT = 720;
+	private final int WIDTH = 800;
+	private final int HEIGHT = 600;
 	private final String TITLE = "Mancala game";
 	
 	private GameModel model;
 
-	private final JFrame frame;
-	private final JLabel turnLabel;
-	private final JLabel promptLabel;
-	private final StartDialog dialog;
+	JFrame frame;
+	JLabel turnLabel;
+	JLabel promptLabel;
 
 	public GameFrame(GameModel model) {
 		
@@ -40,7 +39,7 @@ public class GameFrame implements ChangeListener
 		JPanel panel = new JPanel();
 		
 		// Create components
-		BoardPanel boardPanel = new BoardPanel(model, WIDTH, (int)(HEIGHT * 0.6));
+		BoardPanel boardPanel = new BoardPanel(model, WIDTH, 300);
 		turnLabel = new JLabel("Player 1's turn");
 		promptLabel = new JLabel(model.getStateMessage());
 
@@ -54,10 +53,6 @@ public class GameFrame implements ChangeListener
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
-
-		// Show starting dialog
-		dialog = new StartDialog(model);
-		dialog.setVisible(true);
 	}
 
 	public void stateChanged(ChangeEvent e) {
