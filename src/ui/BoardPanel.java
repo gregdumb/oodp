@@ -200,4 +200,5 @@ public class BoardPanel extends JPanel implements ChangeListener {
 		this.revalidate();
 		this.repaint();
 	}
+
 }
