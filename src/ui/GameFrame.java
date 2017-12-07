@@ -15,7 +15,7 @@ import java.awt.*;
 public class GameFrame implements ChangeListener
 {
 	private final int WIDTH = 1280;
-	private final int HEIGHT = 720;
+	private final int HEIGHT = 420;
 	private final String TITLE = "Mancala game";
 	
 	private GameModel model;
@@ -32,7 +32,9 @@ public class GameFrame implements ChangeListener
 		
 		// Create frame
 		frame = new JFrame();
-		frame.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		frame.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+		frame.setMaximumSize(new Dimension(WIDTH, 1000));
+		//frame.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		frame.setTitle(TITLE);
 		frame.setResizable(false);
 		
@@ -41,9 +43,11 @@ public class GameFrame implements ChangeListener
 		
 		// Create panel
 		JPanel panel = new JPanel();
+		panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		//panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		
 		// Create components
-		BoardPanel boardPanel = new BoardPanel(model, WIDTH, (int)(HEIGHT * 0.6));
+		BoardPanel boardPanel = new BoardPanel(model, WIDTH, (int)(WIDTH * 0.25));
 		turnLabel = new JLabel("Player 1's turn");
 		promptLabel = new JLabel(model.getStateMessage());
 		
@@ -60,9 +64,9 @@ public class GameFrame implements ChangeListener
 		});
 		
 		// Add components & panel to frame
-		panel.add(boardPanel);
 		panel.add(turnLabel);
 		panel.add(promptLabel);
+		panel.add(boardPanel);
 		panel.add(newButton);
 		panel.add(undoButton);
 		frame.add(panel);
