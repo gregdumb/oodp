@@ -10,14 +10,13 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
- * Created by Greg on 11/28/2017.
- *
  * Dialog that is displayed before the game starts and asks players
- * to enter number of starting pieces in each hole (and eventually
- * the color/style as well)
+ * to enter number of starting pieces in each hole and the color/
+ * style
  */
 public class StartDialog extends JDialog {
 
+	/** Padding around the edges */
 	private final int GAP = 10;
 
 	public StartDialog(GameModel model) {
@@ -51,6 +50,7 @@ public class StartDialog extends JDialog {
 		// Play button
 		JButton playButton = new JButton("Play");
 
+		// Play button event
 		playButton.addActionListener(e -> {
 			String selectedStr = (String) numPiecesCombo.getSelectedItem();
 			int selectedInt = Integer.parseInt(selectedStr);
@@ -62,6 +62,7 @@ public class StartDialog extends JDialog {
 			this.setVisible(false);
 		});
 		
+		// Inputs section
 		JPanel inputPanel = new JPanel();
 		inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.PAGE_AXIS));
 		
@@ -75,17 +76,16 @@ public class StartDialog extends JDialog {
 		
 		// Add components
 		panel.add(titleLabel, BorderLayout.PAGE_START);
-		
+		//
 		numPanel.add(comboLabel);
 		numPanel.add(numPiecesCombo);
 		inputPanel.add(numPanel);
-		
+		//
 		stylePanel.add(styleLabel);
 		stylePanel.add(styleCombo);
 		inputPanel.add(stylePanel);
-		
+		//
 		panel.add(inputPanel, BorderLayout.CENTER);
-		
 		panel.add(playButton, BorderLayout.PAGE_END);
 		this.add(panel);
 		this.pack();

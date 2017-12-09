@@ -14,12 +14,21 @@ import java.awt.*;
  */
 public class GameFrame implements ChangeListener
 {
+	/**
+	 * UI Constants
+	 */
 	private final int WIDTH = 1280;
 	private final int HEIGHT = 420;
 	private final String TITLE = "Mancala game";
 	
+	/**
+	 * Data model for the game
+	 */
 	private GameModel model;
-
+	
+	/**
+	 * UI elements
+	 */
 	private final JFrame frame;
 	private final JLabel turnLabel;
 	private final JLabel promptLabel;
@@ -79,13 +88,15 @@ public class GameFrame implements ChangeListener
 		// Show starting dialog
 		dialog.setVisible(true);
 	}
-
+	
+	/**
+	 * Called when model changes
+	 * @param e change event
+	 */
 	public void stateChanged(ChangeEvent e) {
 
 		int turn = model.getCurrentTurn() + 1;
 		turnLabel.setText("Player " + Integer.toString(turn) + "'s turn");
 		promptLabel.setText(model.getStateMessage());
-
-		//frame.repaint();
 	}
 }
