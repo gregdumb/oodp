@@ -1,6 +1,7 @@
 package ui;
 
 import logic.GameModel;
+import styles.BoardStyle;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -42,7 +43,7 @@ public class BoardPanel extends JPanel implements ChangeListener {
 		// We want to use absolute positioning, no layout manager
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(width, height));
-		this.setBackground(new Color(255, 143, 212)); // Using ugly blue just to see where the board is on the screen
+		//this.setBackground(new Color(255, 143, 212)); // Using ugly blue just to see where the board is on the screen
 
 		// Calculate positioning
 
@@ -69,9 +70,9 @@ public class BoardPanel extends JPanel implements ChangeListener {
 
 		// Position of player 1/2 labels
 		int p1LabelX = (width / 2) - (LABEL_SIZE_X / 2);
-		int p1LabelY = height - (EDGE_PADDING / 2) - (LABEL_SIZE_Y / 2);
+		int p1LabelY = height - (int)(EDGE_PADDING * 0.25) - (LABEL_SIZE_Y / 2);
 		int p2LabelX = (width / 2) - (LABEL_SIZE_X / 2);
-		int p2LabelY = (EDGE_PADDING / 2) - (LABEL_SIZE_Y / 2);
+		int p2LabelY = (int)(EDGE_PADDING * 0.25) - (LABEL_SIZE_Y / 2);
 
 		// Create rows of holes and stores
 		for (int i = 0; i < 14; i++) {
@@ -111,6 +112,14 @@ public class BoardPanel extends JPanel implements ChangeListener {
 
 		// Attach as listener so we will repaint when the modal changes
 		model.attachListener(this);
+	}
+	
+	/**
+	 * Set the style (theme)
+	 * @param newStyle new style
+	 */
+	public void setStyle(BoardStyle newStyle) {
+		this.setBackground(newStyle.getColor());
 	}
 
 	/**

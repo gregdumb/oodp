@@ -34,7 +34,7 @@ public class StartDialog extends JDialog {
 		comboLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		// Starting pieces combo
-		String[] startingOptions = {"3", "4"};
+		String[] startingOptions = {"4", "3"};
 		JComboBox numPiecesCombo = new JComboBox(startingOptions);
 
 		// Style label
@@ -42,7 +42,7 @@ public class StartDialog extends JDialog {
 		styleLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		// Style combo
-		String[] styles = {"Red", "Blue"};
+		String[] styles = {"Ocean", "Sunshine"};
 		JComboBox styleCombo = new JComboBox(styles);
 		
 		// Play button
