@@ -1,6 +1,9 @@
 package ui;
 
 import logic.GameModel;
+import styles.BoardStyle;
+import styles.OceanStyle;
+import styles.SunshineStyle;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -51,7 +54,11 @@ public class StartDialog extends JDialog {
 		playButton.addActionListener(e -> {
 			String selectedStr = (String) numPiecesCombo.getSelectedItem();
 			int selectedInt = Integer.parseInt(selectedStr);
-			model.initialize(selectedInt);
+			
+			String styleStr = (String) styleCombo.getSelectedItem();
+			BoardStyle style = (styleStr.equals("Ocean")) ? new OceanStyle() : new SunshineStyle();
+			
+			model.initialize(selectedInt, style);
 			this.setVisible(false);
 		});
 		

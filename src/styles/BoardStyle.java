@@ -3,7 +3,7 @@ package styles;
 import java.awt.*;
 
 /**
- * Created by Greg on 12/8/2017.
+ * Interface for different board styles
  */
 public interface BoardStyle
 {

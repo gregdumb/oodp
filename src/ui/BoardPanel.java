@@ -170,6 +170,7 @@ public class BoardPanel extends JPanel implements ChangeListener {
 	}
 
 	public void stateChanged(ChangeEvent e) {
+		setStyle(model.boardStyle);
 		this.revalidate();
 		this.repaint();
 	}

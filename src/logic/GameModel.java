@@ -1,5 +1,8 @@
 package logic;
 
+import styles.BoardStyle;
+import styles.OceanStyle;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -18,12 +21,20 @@ public class GameModel {
 	 * Listeners that will update when the modal changes
 	 */
 	private ArrayList<ChangeListener> listeners;
-
+	
+	/**
+	 * Style of the board for this game
+	 */
+	public BoardStyle boardStyle = new OceanStyle();
+	
 	/**
 	 * Stores how many stones are in each hole
 	 */
 	private ArrayList<Integer> holes;
 	
+	/**
+	 * Undo history
+	 */
 	private ArrayList<Integer> undoState;
 	private int undoTurn = 0;
 
@@ -43,7 +54,10 @@ public class GameModel {
 	private final int STATE_NEW_TURN = 0;
 	private final int STATE_CONTINUE_TURN = 1;
 	private final int STATE_GAME_OVER = 2;
-
+	
+	/**
+	 * State of game (new turn, continue, or game over)
+	 */
 	private int gameState = 0;
 
 	public GameModel() {
@@ -53,8 +67,12 @@ public class GameModel {
 		holes.set(6, 0);
 		holes.set(13, 0);
 	}
-
-	public void initialize(int defaultEachHole) {
+	
+	/**
+	 * Initialize a new game
+	 * @param defaultEachHole circles in each hole
+	 */
+	public void initialize(int defaultEachHole, BoardStyle style) {
 
 		if(defaultEachHole < 1) return;
 
@@ -64,6 +82,8 @@ public class GameModel {
 		
 		turn = 0;
 		undoTurn = -1;
+		
+		boardStyle = style;
 
 		update();
 	}
