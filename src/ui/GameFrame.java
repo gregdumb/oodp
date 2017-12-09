@@ -41,9 +41,9 @@ public class GameFrame implements ChangeListener
 		
 		// Create frame
 		frame = new JFrame();
-		frame.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-		frame.setMaximumSize(new Dimension(WIDTH, 1000));
-		//frame.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		//frame.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+		//frame.setMaximumSize(new Dimension(WIDTH, 1000));
+		frame.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		frame.setTitle(TITLE);
 		frame.setResizable(false);
 		
@@ -96,7 +96,7 @@ public class GameFrame implements ChangeListener
 	public void stateChanged(ChangeEvent e) {
 
 		int turn = model.getCurrentTurn() + 1;
-		turnLabel.setText("Player " + Integer.toString(turn) + "'s turn");
+		turnLabel.setText("Player " + Integer.toString(turn) + "'s turn.");
 		promptLabel.setText(model.getStateMessage());
 	}
 }

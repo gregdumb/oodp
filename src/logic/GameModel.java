@@ -334,17 +334,24 @@ public class GameModel {
 			// Put pieces in store
 			holes.set(6, holes.get(6) + sum0);
 			holes.set(13, holes.get(13) + sum1);
-
-			if (holes.get(13) == holes.get(6)) {
-				System.out.println("It's a tie!");
-			} else if (holes.get(13) > holes.get(6)) {
-				System.out.println("Player 2 won!!");
-			} else {
-				System.out.println("Player 1 won!");
-			}
+			
+			gameState = STATE_GAME_OVER;
 		}
 
 		return empty0 || empty1;
+	}
+	
+	/**
+	 * Get the (current) winner of the game
+	 */
+	public int getWinner() {
+		if (holes.get(13) == holes.get(6)) {
+			return -1;
+		} else if (holes.get(13) > holes.get(6)) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -365,7 +372,10 @@ public class GameModel {
 				return "You landed on your own store; continue your turn";
 
 			case STATE_GAME_OVER:
-				return "Game over!";
+				int winner = getWinner();
+				if(winner == 0) return "Player 1 Won!";
+				else if(winner == 1) return "Player 2 Won!";
+				else return "It's a tie!";
 
 			default:
 				return "Idk what's going on";

@@ -33,8 +33,24 @@ public class StoreComponent extends JComponent
 		
 		g2d.drawRoundRect(0, 0, width-1, height-1, width/2, width/2);
 		
-		g2d.drawString(Integer.toString(model.getCountOfHole(id)), width/2, height/2);
-		g2d.drawString(Integer.toString(this.id), 0, 10);
+		//g2d.drawString(Integer.toString(model.getCountOfHole(id)), width/2, height/2);
+		
+		int numPieces = model.getCountOfHole(id);
+		int pieceSize = 12;
+		int pieceSpacing = pieceSize + 5;
+		int maxColumns = 4;
+		
+		int totalPieceWidth = (pieceSpacing * maxColumns) - 5;
+		int start = (width - totalPieceWidth) / 2;
+		
+		for(int i = 0; i < numPieces; i++) {
+			int x = start + (i % maxColumns) * pieceSpacing;
+			int y = start + (i / maxColumns) * pieceSpacing;
+			g2d.fillOval(x, y, pieceSize, pieceSize);
+		}
+		
+		// Draw ID of store (for debugging)
+		//g2d.drawString(Integer.toString(this.id), 0, 10);
 		
 	}
 	

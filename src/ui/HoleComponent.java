@@ -51,8 +51,23 @@ public class HoleComponent extends JComponent {
 		Graphics2D g2d = (Graphics2D) g;
 
 		g2d.drawOval(0, 0, size - 1, size - 1); // add a buffer of 1 pixel so the edges don't get cut off
-		g2d.drawString(Integer.toString(model.getCountOfHole(id)), size / 2, size / 2);
-		g2d.drawString(Integer.toString(this.getId()), 0, 10);
+		
+		int numPieces = model.getCountOfHole(id);
+		int pieceSize = 12;
+		int pieceSpacing = pieceSize + 5;
+		int maxColumns = 4;
+		
+		int totalPieceWidth = (pieceSpacing * maxColumns) - 5;
+		int start = (size - totalPieceWidth) / 2;
+		
+		for(int i = 0; i < numPieces; i++) {
+			int x = start + (i % maxColumns) * pieceSpacing;
+			int y = start + (i / maxColumns) * pieceSpacing;
+			g2d.fillOval(x, y, pieceSize, pieceSize);
+		}
+		
+		// Draw ID of hole (for debugging)
+		//g2d.drawString(Integer.toString(this.getId()), 0, 10);
 	}
 
 	public int getId() {
