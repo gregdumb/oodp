@@ -3,18 +3,18 @@ package logic;
 import styles.BoardStyle;
 import styles.OceanStyle;
 
-import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TimerTask;
 import java.util.Timer;
 
 /**
- * Controls game logic
+ * @author Greg Brisebois
+ * @version 1.0
+ *
+ * Controls mancala game logic
  */
 public class GameModel {
 	/**
@@ -48,6 +48,8 @@ public class GameModel {
 	 */
 	private int hand = 0;
 	private int position;
+	
+	private boolean cancelMove = false;
 
 	private final int ANIMATION_DELAY = 250; //ms
 
@@ -84,6 +86,8 @@ public class GameModel {
 		undoTurn = -1;
 		
 		boardStyle = style;
+		
+		cancelMove = true;
 
 		update();
 	}
@@ -113,6 +117,8 @@ public class GameModel {
 
 		saveUndoState();
 		
+		cancelMove = false;
+		
 		// Pick up pieces from hole, put in hand
 		hand = grabHole(position);
 
@@ -126,6 +132,13 @@ public class GameModel {
 	 * @return
 	 */
 	private int placeFromHand() {
+		
+		// Make sure we still want to go
+		if(cancelMove) {
+			cancelMove = false;
+			return 0;
+		}
+		
 		// Go to next hole
 		position = (position + 1) % 14;
 
@@ -296,7 +309,12 @@ public class GameModel {
 		int newVal = holes.get(index) + 1;
 		holes.set(index, newVal);
 	}
-
+	
+	/**
+	 * Get which player's turn it is right now
+	 * (accessor for private 'turn')
+	 * @return turn
+	 */
 	public int getCurrentTurn() {
 		return turn;
 	}
@@ -318,7 +336,6 @@ public class GameModel {
 		}
 
 		// If game is over, Grab remaining pieces and put them in store
-
 		if(empty0 || empty1) {
 			int sum0 = 0;
 			int sum1 = 0;
@@ -362,7 +379,11 @@ public class GameModel {
 	private void setGameState(int newState) {
 		gameState = newState;
 	}
-
+	
+	/**
+	 * Message that will be displayed to the user with info on game state
+	 * @return the message
+	 */
 	public String getStateMessage() {
 		switch (gameState) {
 			case STATE_NEW_TURN:
@@ -409,6 +430,8 @@ public class GameModel {
 	 */
 	public void undo() {
 		
+		cancelMove = true;
+		
 		if(undoTurn == -1) {
 			System.out.println("Cannot undo");
 			return;
@@ -443,7 +466,6 @@ public class GameModel {
 			l.stateChanged(new ChangeEvent(this));
 		}
 	}
-
 }
 
 

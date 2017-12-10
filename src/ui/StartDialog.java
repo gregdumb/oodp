@@ -10,6 +10,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
+ * @author Greg Brisebois
+ * @version 1.0
+ *
  * Dialog that is displayed before the game starts and asks players
  * to enter number of starting pieces in each hole and the color/
  * style

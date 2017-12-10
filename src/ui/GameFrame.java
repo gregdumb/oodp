@@ -1,7 +1,6 @@
 package ui;
 
 import logic.GameModel;
-import ui.BoardPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -9,7 +8,9 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 /**
- * ui.GameFrame
+ * @author Greg Brisebois
+ * @version 1.0
+ *
  * Swing frame that displays the Mancala game
  */
 public class GameFrame implements ChangeListener

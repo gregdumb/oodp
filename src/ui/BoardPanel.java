@@ -9,6 +9,9 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 /**
+ * @author Greg Brisebois
+ * @version 1.0
+ *
  * Board Panel
  * JPanel that contains the circles and stuff for the mancala board
  */
@@ -43,7 +46,6 @@ public class BoardPanel extends JPanel implements ChangeListener {
 		// We want to use absolute positioning, no layout manager
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(width, height));
-		//this.setBackground(new Color(255, 143, 212)); // Using ugly blue just to see where the board is on the screen
 
 		// Calculate positioning
 
@@ -163,12 +165,20 @@ public class BoardPanel extends JPanel implements ChangeListener {
 
 		return newStore;
 	}
-
+	
+	/**
+	 * Used by swing to get what size we want to be
+	 * @return preferred size
+	 */
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(width, height);
 	}
-
+	
+	/**
+	 * Called when the model updates
+	 * @param e change event
+	 */
 	public void stateChanged(ChangeEvent e) {
 		setStyle(model.boardStyle);
 		this.revalidate();

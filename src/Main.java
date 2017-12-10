@@ -2,7 +2,9 @@ import logic.GameModel;
 import ui.GameFrame;
 
 /**
- * Created by Greg on 10/19/2017.
+ * @author Greg
+ *
+ * Main class/method for mancala game
  */
 public class Main
 {
